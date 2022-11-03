@@ -1,0 +1,42 @@
+﻿<Window x:Class="Hospital.Windows.AddMedicalCard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hospital.Windows"
+        mc:Ignorable="d"
+        Title="AddMedicalCard" Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ФИО:" FontSize="23"></TextBlock>
+                <TextBox x:Name="fullNameTB" Width="350" Margin="10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Пол:" FontSize="23"></TextBlock>
+                <TextBox x:Name="genderTB" Width="350" Margin="10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Возраст:" FontSize="23"></TextBlock>
+                <TextBox x:Name="ageTB" Width="350" Margin="10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Диагноз:" FontSize="23"></TextBlock>
+                <TextBox x:Name="diagnosisTB" Width="350" Margin="10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Рост:" FontSize="23"></TextBlock>
+                <TextBox x:Name="heightTB" Width="350" Margin="10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Цвет волос:" FontSize="23"></TextBlock>
+                <TextBox x:Name="hairColorTB" Width="350" Margin="10 0 0 0"></TextBox>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Отличительные знаки:" FontSize="23"></TextBlock>
+                <TextBox x:Name="signsTB" Width="350" Margin="10 0 0 0"></TextBox>
+            </StackPanel>
+            <Button Content="Добавить" Background="#fac716" FontSize="25" x:Name="AddBtn" Click="AddBtn_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

@@ -1,0 +1,41 @@
+﻿<Window x:Class="Hospital.Windows.MedicalCard"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hospital.Windows"
+        mc:Ignorable="d"
+        Title="MedicalCard" Height="450" Width="1000" MinHeight="450" MinWidth="1000">
+    <Grid>
+        <StackPanel Orientation="Vertical">
+            <TextBlock Text="Страница с медкартами" HorizontalAlignment="Center" FontSize="30" FontWeight="Bold"></TextBlock>
+            <DataGrid IsReadOnly="True" AutoGenerateColumns="False" VerticalScrollBarVisibility="Hidden" x:Name="medCardsGrid" HorizontalAlignment="Center">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ФИО больного" Binding="{Binding fullName}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Пол" Binding="{Binding gender}" Width="100"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Возраст" Binding="{Binding age}" Width="70"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Диагноз" Binding="{Binding diagnosis}" Width="*"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Рост" Binding="{Binding height}" Width="auto"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Цвет волос" Binding="{Binding hairColor}" Width="auto"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Отличительные черты" Binding="{Binding signs}" Width="auto"></DataGridTextColumn>
+                    <DataGridTemplateColumn Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="EditBtn" Content="Изменить" Background="#fac716" Click="EditBtn_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Width="auto">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="DltBtn" Content="Удалить" Background="#fac716" Click="DltBtn_Click"></Button>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button x:Name="AddBtn" Content="Добавить" FontSize="23" FontWeight="Bold" Click="AddBtn_Click" Background="#fac716"></Button>
+            <Button x:Name="BackBtn" Content="Вернуться назад" FontSize="23" FontWeight="Bold" Click="BackBtn_Click" Background="#fac716"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

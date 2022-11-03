@@ -1,0 +1,470 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище HospitalModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Arrival">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="arrivalDate" Type="date" Nullable="false" />
+          <Property Name="arrivalReason" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="medicalCardId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Extract">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="extractDate" Type="date" Nullable="false" />
+          <Property Name="extractReason" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="medicalCardId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MedicalCard">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fullName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="gender" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="age" Type="int" Nullable="false" />
+          <Property Name="diagnosis" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="height" Type="int" />
+          <Property Name="hairColor" Type="nvarchar(max)" />
+          <Property Name="signs" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Transfer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="transferDate" Type="date" Nullable="false" />
+          <Property Name="wardId" Type="int" Nullable="false" />
+          <Property Name="medicalCardId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ward">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="wardNumber" Type="int" Nullable="false" />
+          <Property Name="wardPhone" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Arrival_MedicalCard">
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="1" />
+          <End Role="Arrival" Type="Self.Arrival" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCard">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Arrival">
+              <PropertyRef Name="medicalCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Extract_MedicalCard">
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="1" />
+          <End Role="Extract" Type="Self.Extract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCard">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Extract">
+              <PropertyRef Name="medicalCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transfer_MedicalCard">
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="1" />
+          <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCard">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transfer">
+              <PropertyRef Name="medicalCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transfer_Ward">
+          <End Role="Ward" Type="Self.Ward" Multiplicity="1" />
+          <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ward">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transfer">
+              <PropertyRef Name="wardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+        <EntityContainer Name="Хранилище HospitalModelContainer">
+          <EntitySet Name="Arrival" EntityType="Self.Arrival" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Extract" EntityType="Self.Extract" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MedicalCard" EntityType="Self.MedicalCard" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Transfer" EntityType="Self.Transfer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ward" EntityType="Self.Ward" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Arrival_MedicalCard" Association="Self.FK_Arrival_MedicalCard">
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+            <End Role="Arrival" EntitySet="Arrival" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Extract_MedicalCard" Association="Self.FK_Extract_MedicalCard">
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+            <End Role="Extract" EntitySet="Extract" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transfer_MedicalCard" Association="Self.FK_Transfer_MedicalCard">
+            <End Role="MedicalCard" EntitySet="MedicalCard" />
+            <End Role="Transfer" EntitySet="Transfer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transfer_Ward" Association="Self.FK_Transfer_Ward">
+            <End Role="Ward" EntitySet="Ward" />
+            <End Role="Transfer" EntitySet="Transfer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="HospitalModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Arrival">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="arrivalDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="arrivalReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="medicalCardId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MedicalCard" Relationship="Self.FK_Arrival_MedicalCard" FromRole="Arrival" ToRole="MedicalCard" />
+        </EntityType>
+        <EntityType Name="Extract">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="extractDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="extractReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="medicalCardId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MedicalCard" Relationship="Self.FK_Extract_MedicalCard" FromRole="Extract" ToRole="MedicalCard" />
+        </EntityType>
+        <EntityType Name="MedicalCard">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fullName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="gender" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="age" Type="Int32" Nullable="false" />
+          <Property Name="diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="height" Type="Int32" />
+          <Property Name="hairColor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="signs" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Arrivals" Relationship="Self.FK_Arrival_MedicalCard" FromRole="MedicalCard" ToRole="Arrival" />
+          <NavigationProperty Name="Extracts" Relationship="Self.FK_Extract_MedicalCard" FromRole="MedicalCard" ToRole="Extract" />
+          <NavigationProperty Name="Transfers" Relationship="Self.FK_Transfer_MedicalCard" FromRole="MedicalCard" ToRole="Transfer" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Transfer">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="transferDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="wardId" Type="Int32" Nullable="false" />
+          <Property Name="medicalCardId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MedicalCard" Relationship="Self.FK_Transfer_MedicalCard" FromRole="Transfer" ToRole="MedicalCard" />
+          <NavigationProperty Name="Ward" Relationship="Self.FK_Transfer_Ward" FromRole="Transfer" ToRole="Ward" />
+        </EntityType>
+        <EntityType Name="Ward">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="wardNumber" Type="Int32" Nullable="false" />
+          <Property Name="wardPhone" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Transfers" Relationship="Self.FK_Transfer_Ward" FromRole="Ward" ToRole="Transfer" />
+        </EntityType>
+        <Association Name="FK_Arrival_MedicalCard">
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="1" />
+          <End Role="Arrival" Type="Self.Arrival" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCard">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Arrival">
+              <PropertyRef Name="medicalCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Extract_MedicalCard">
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="1" />
+          <End Role="Extract" Type="Self.Extract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCard">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Extract">
+              <PropertyRef Name="medicalCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transfer_MedicalCard">
+          <End Role="MedicalCard" Type="Self.MedicalCard" Multiplicity="1" />
+          <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MedicalCard">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transfer">
+              <PropertyRef Name="medicalCardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Transfer_Ward">
+          <End Role="Ward" Type="Self.Ward" Multiplicity="1" />
+          <End Role="Transfer" Type="Self.Transfer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ward">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Transfer">
+              <PropertyRef Name="wardId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="HospitalEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Arrivals" EntityType="Self.Arrival" />
+          <EntitySet Name="Extracts" EntityType="Self.Extract" />
+          <EntitySet Name="MedicalCards" EntityType="Self.MedicalCard" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="Transfers" EntityType="Self.Transfer" />
+          <EntitySet Name="Wards" EntityType="Self.Ward" />
+          <AssociationSet Name="FK_Arrival_MedicalCard" Association="Self.FK_Arrival_MedicalCard">
+            <End Role="MedicalCard" EntitySet="MedicalCards" />
+            <End Role="Arrival" EntitySet="Arrivals" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Extract_MedicalCard" Association="Self.FK_Extract_MedicalCard">
+            <End Role="MedicalCard" EntitySet="MedicalCards" />
+            <End Role="Extract" EntitySet="Extracts" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transfer_MedicalCard" Association="Self.FK_Transfer_MedicalCard">
+            <End Role="MedicalCard" EntitySet="MedicalCards" />
+            <End Role="Transfer" EntitySet="Transfers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Transfer_Ward" Association="Self.FK_Transfer_Ward">
+            <End Role="Ward" EntitySet="Wards" />
+            <End Role="Transfer" EntitySet="Transfers" />
+          </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(HospitalModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(HospitalModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
+        </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище HospitalModelContainer" CdmEntityContainer="HospitalEntities">
+          <EntitySetMapping Name="Arrivals">
+            <EntityTypeMapping TypeName="HospitalModel.Arrival">
+              <MappingFragment StoreEntitySet="Arrival">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="arrivalDate" ColumnName="arrivalDate" />
+                <ScalarProperty Name="arrivalReason" ColumnName="arrivalReason" />
+                <ScalarProperty Name="medicalCardId" ColumnName="medicalCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Extracts">
+            <EntityTypeMapping TypeName="HospitalModel.Extract">
+              <MappingFragment StoreEntitySet="Extract">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="extractDate" ColumnName="extractDate" />
+                <ScalarProperty Name="extractReason" ColumnName="extractReason" />
+                <ScalarProperty Name="medicalCardId" ColumnName="medicalCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MedicalCards">
+            <EntityTypeMapping TypeName="HospitalModel.MedicalCard">
+              <MappingFragment StoreEntitySet="MedicalCard">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="diagnosis" ColumnName="diagnosis" />
+                <ScalarProperty Name="height" ColumnName="height" />
+                <ScalarProperty Name="hairColor" ColumnName="hairColor" />
+                <ScalarProperty Name="signs" ColumnName="signs" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="HospitalModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Transfers">
+            <EntityTypeMapping TypeName="HospitalModel.Transfer">
+              <MappingFragment StoreEntitySet="Transfer">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="transferDate" ColumnName="transferDate" />
+                <ScalarProperty Name="wardId" ColumnName="wardId" />
+                <ScalarProperty Name="medicalCardId" ColumnName="medicalCardId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Wards">
+            <EntityTypeMapping TypeName="HospitalModel.Ward">
+              <MappingFragment StoreEntitySet="Ward">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="wardNumber" ColumnName="wardNumber" />
+                <ScalarProperty Name="wardPhone" ColumnName="wardPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="Хранилище HospitalModel.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="Хранилище HospitalModel.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="Хранилище HospitalModel.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="Хранилище HospitalModel.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HospitalModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="Хранилище HospitalModel.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="HospitalModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="Хранилище HospitalModel.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="Хранилище HospitalModel.sp_upgraddiagrams" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

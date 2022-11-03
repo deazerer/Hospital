@@ -1,0 +1,25 @@
+﻿<Window x:Class="Hospital.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Hospital"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="400" MinHeight="450" MinWidth="400">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#fac716"/>
+            <Setter Property="Height" Value="30"></Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center">
+            <TextBlock Text="Учет пациентов клинической больницы" FontSize="19" FontWeight="Bold" Margin="0 25 0 0" />
+        </StackPanel>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="extractBtn" Content="Выписки" Click="extractBtn_Click"/>
+            <Button x:Name="medicalCardBtn" Content="Медкарты" Click="medicalCardBtn_Click" Margin="0 10 0 10"/>
+            <Button x:Name="medicalCardPdfBtn" Content="Экспорт в pdf медкарт" Click="medicalCardPdfBtn_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
